@@ -1,0 +1,15 @@
+---
+
+- name: Copy ssh_key to all nodes
+  hosts: cluster_nodes
+  become: yes
+  any_errors_fatal: true
+  vars_files:
+    - 'environment_vars/vars'
+  tasks:
+    - name: check authorized_keys file present on the nodes and copy key
+      authorized_keys:
+        state: present
+        user: "{{ automation_user }}"
+        key: "{{ automation_public_ssh_keys }}"
+  
